@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
 //    private String[] numbers = {"7359753876","3865986365","5286746529"};
     public String contactname;
     public String contactnumber;
-    //line27 gives nullpointerexception error
+    //line27 gives nullpointerexception error, why doesn't it work?
     EditText nameofcontact = (EditText) findViewById(R.id.edittextname);
     EditText numberofcontact = (EditText) findViewById(R.id.edittextname);
 
