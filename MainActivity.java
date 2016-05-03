@@ -22,11 +22,13 @@ public class MainActivity extends AppCompatActivity {
 
 //    private String[] names = {"Brahma", "Vishnu", "Mahesh"};
 //    private String[] numbers = {"7359753876","3865986365","5286746529"};
+
+    EditText nameofcontact;
+    EditText numberofcontact;
     public String contactname;
     public String contactnumber;
     //line27 gives nullpointerexception error, why doesn't it work?
-    EditText nameofcontact = (EditText) findViewById(R.id.edittextname);
-    EditText numberofcontact = (EditText) findViewById(R.id.edittextname);
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +36,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
 //        Button view = (Button) findViewById(R.id.viewButton);
-        Button add = (Button) findViewById(R.id.createButton);
+//        Button add = (Button) findViewById(R.id.createButton);
+         nameofcontact = (EditText) findViewById(R.id.edittextname);
+         numberofcontact = (EditText) findViewById(R.id.edittextnumber);
 //        Button modify = (Button)findViewById(R.id.updateButton);
 //        Button delete = (Button)findViewById(R.id.deleteButton);
 
@@ -61,19 +65,20 @@ public void createButton(View view) {
     contactname = nameofcontact.getText().toString();
     contactnumber = numberofcontact.getText().toString();
 
-Log.d("ffff","wwww");
+
     ArrayList<ContentProviderOperation> contentProviderOperations = new ArrayList<ContentProviderOperation>();
     //insert raw contact using RawContacts.CONTENT_URI
     contentProviderOperations.add(ContentProviderOperation.newInsert(ContactsContract.RawContacts.CONTENT_URI)
             .withValue(ContactsContract.RawContacts.ACCOUNT_TYPE, null).withValue(ContactsContract.RawContacts.ACCOUNT_NAME, null).build());
     //insert contact display name using Data.CONTENT_URI
+    Log.d("ffff","wwww");
     contentProviderOperations.add(ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI)
             .withValueBackReference(ContactsContract.Data.RAW_CONTACT_ID, 0).withValue(ContactsContract.Data.MIMETYPE, ContactsContract.CommonDataKinds.StructuredName.CONTENT_ITEM_TYPE)
-            .withValue(ContactsContract.CommonDataKinds.StructuredName.DISPLAY_NAME,nameofcontact ).build());
+            .withValue(ContactsContract.CommonDataKinds.StructuredName.DISPLAY_NAME,contactname ).build());
     //insert mobile number using Data.CONTENT_URI
     contentProviderOperations.add(ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI)
             .withValueBackReference(ContactsContract.Data.RAW_CONTACT_ID, 0).withValue(ContactsContract.Data.MIMETYPE, ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE)
-            .withValue(ContactsContract.CommonDataKinds.Phone.NUMBER, numberofcontact).withValue(ContactsContract.CommonDataKinds.Phone.TYPE, ContactsContract.CommonDataKinds.Phone.TYPE_MOBILE).build());
+            .withValue(ContactsContract.CommonDataKinds.Phone.NUMBER, contactnumber).withValue(ContactsContract.CommonDataKinds.Phone.TYPE, ContactsContract.CommonDataKinds.Phone.TYPE_MOBILE).build());
     try {
         //apply the changes
         getApplicationContext().getContentResolver().
@@ -86,7 +91,7 @@ Log.d("ffff","wwww");
 }
 
 
-    private void writeContact(String displayName, String number) {
+//    private void writeContact(String displayName, String number) {
 //        ArrayList<ContentProviderOperation> contentProviderOperations = new ArrayList<ContentProviderOperation>();
 //        //insert raw contact using RawContacts.CONTENT_URI
 //        contentProviderOperations.add(ContentProviderOperation.newInsert(ContactsContract.RawContacts.CONTENT_URI)
@@ -108,7 +113,7 @@ Log.d("ffff","wwww");
 //        } catch (OperationApplicationException e) {
 //            e.printStackTrace();
 //        }
-    }
+//    }
     @Override
     protected void onDestroy() {
         super.onDestroy();
